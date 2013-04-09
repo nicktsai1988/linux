@@ -1,0 +1,35 @@
+all: myapp
+
+# which compiler
+CC = gcc
+
+# where are include files kept
+INCLUDE=
+
+# Options to development
+CFLAGS = -g -Wall -ansi
+
+# Options for release
+# CFLAGS = -O -Wall -ansi
+
+# local libraries
+MYLIB = mylib.a
+
+myapp: main.o $(MYLIB)
+	$(CC) -o myapp main.o $(MYLIB)
+
+$(MYLIB): $(MYLIB)(2.o) $(MYLIB)(3.o)
+main.o: main.c a.h
+2.o: 2.c a.h b.h
+3.o: 3.c b.h c.h
+
+clean:
+	-rm *.o $(MYLIB)
+
+dist: myapp-1.0.tar.gz
+
+myapp-1.0.tar.gz: myapp
+	-rm -rf myapp-1.0
+	mkdir myapp-1.0
+	cp *.c *.h Makefile myapp-1.0
+	tar zcvf $@ myapp-1.0
